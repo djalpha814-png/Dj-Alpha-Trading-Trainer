@@ -1,4 +1,4 @@
-name: Build DJ Alpha Trading Trainer
+name: Build Android APK
 
 on:
   workflow_dispatch:
@@ -20,18 +20,13 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          gradle-version: '8.9'
-
-      - name: Check files
-        run: |
-          echo "Files in repository:"
-          find . -maxdepth 4 -type f | sort
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Build APK
-        run: gradle assembleDebug --stacktrace
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
