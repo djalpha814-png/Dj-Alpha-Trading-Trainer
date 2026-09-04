@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Set up JDK
+      - name: Set up Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -24,12 +24,14 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build APK
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
+        run: ./gradlew assembleDebug
+
+      - name: Show APK files
+        run: find . -name "*.apk" -type f -print
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: DJ-Alpha-Trading-Trainer
+          name: DJ-Alpha-Trading-Trainer-APK
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
